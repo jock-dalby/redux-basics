@@ -1,39 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import actions from '../../store/actions';
+
 import CounterControl from '../../components/CounterControl/CounterControl';
 import CounterOutput from '../../components/CounterOutput/CounterOutput';
 
 class Counter extends Component {
-    state = {
-        counter: 0
-    }
-
-    counterChangedHandler = ( action, value ) => {
-        switch ( action ) {
-            case 'inc':
-                this.setState( ( prevState ) => { return { counter: prevState.counter + 1 } } )
-                break;
-            case 'dec':
-                this.setState( ( prevState ) => { return { counter: prevState.counter - 1 } } )
-                break;
-            case 'add':
-                this.setState( ( prevState ) => { return { counter: prevState.counter + value } } )
-                break;
-            case 'sub':
-                this.setState( ( prevState ) => { return { counter: prevState.counter - value } } )
-                break;
-        }
-    }
 
     render () {
         return (
             <div>
                 <CounterOutput value={this.props.counter} />
-                <CounterControl label="Increment" clicked={() => this.counterChangedHandler( 'inc' )} />
-                <CounterControl label="Decrement" clicked={() => this.counterChangedHandler( 'dec' )}  />
-                <CounterControl label="Add 5" clicked={() => this.counterChangedHandler( 'add', 5 )}  />
-                <CounterControl label="Subtract 5" clicked={() => this.counterChangedHandler( 'sub', 5 )}  />
+                <CounterControl label="Increment" clicked={() => this.props.onIncrementCounter()} />
+                <CounterControl label="Decrement" clicked={() => this.props.onDecrementCounter()}  />
+                <CounterControl label="Add 5" clicked={() => this.props.onAddToCounter()}  />
+                <CounterControl label="Subtract 5" clicked={() => this.props.onSubtractFromCounter()}  />
             </div>
         );
     }
@@ -46,11 +28,22 @@ class Counter extends Component {
  * - connect receives 2 arguments:
  *  - 1. Which slice of state do we want for this container.
  *  - 2. Which actions do we want to dispatch for this container.
+ * - If do not need to dispatch any actions just pass one argument
+ * - If do not need access to state, just pass null as first argument
  * */
 
 const mapStateToProps = state => {
     return {
         counter: state.counter
-    }
+    };
 }
-export default connect(mapStateToProps)(Counter);
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onIncrementCounter: () => dispatch(actions.Increment),
+        onDecrementCounter: () => dispatch(actions.Decrement),
+        onAddToCounter: () => dispatch(actions.AddTo),
+        onSubtractFromCounter: () => dispatch(actions.SubtractFrom),
+    };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
