@@ -34,6 +34,14 @@ const store = createStore(rootReducer);
 console.log('Before actions are dispatched', store.getState());
 
 /*
+ * SUBSCRIPTION
+ * - Subscribe takes one arguement, which is a function with no arguements.
+ * - The function body will be executed when state updates.
+ * - Must be set up after store is created and before any actions are dispatched.
+ */
+store.subscribe(() => console.log('[Subscription]', store.getState()));
+
+/*
  * DISPATCH ACTION
  * - Action is JS object, MUST have type prop.
  * - Payload (and other props) can be named however.
@@ -43,5 +51,3 @@ console.log('After INCREMENT_COUNTER action is dispatched', store.getState());
 
 store.dispatch({type: 'ADD_COUNTER', value: 10 });
 console.log('After ADD_COUNTER action is dispatched', store.getState());
-
-// Subscription
