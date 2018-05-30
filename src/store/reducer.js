@@ -5,29 +5,30 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
-  switch ( action ) {
-    case actions.Increment:
-        return {
-          ...state,
-          counter: state.counter + 1
-        }
-    case actions.Decrement:
-        return {
-          ...state,
-          counter: state.counter - 1
-        }
-    case actions.AddTo:
-        return {
-          ...state,
-          counter: state.counter + action.payload
-        }
-    case actions.SubtractFrom:
-        return {
-          ...state,
-          counter: state.counter - action.payload
-        }
+  switch ( action.type ) {
+    case actions.Increment.type:
+      return {
+        ...state,
+        counter: state.counter + 1
+      }
+    case actions.Decrement.type:
+      return {
+        ...state,
+        counter: state.counter - 1
+      }
+    case 'ADD_TO':
+      return {
+        ...state,
+        counter: state.counter + action.payload
+      }
+    case 'SUBTRACT_FROM':
+      return {
+        ...state,
+        counter: state.counter - action.payload
+      }
+    default:
+      return state;
   }
-  return state;
 }
 
 export default reducer;
