@@ -1,7 +1,8 @@
 import actions from './actions';
 
 const initialState = {
-  counter: 7
+  counter: 7,
+  results: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -25,6 +26,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         counter: state.counter - action.payload
+      }
+    case 'STORE_RESULT':
+      return {
+        ...state,
+        results: [...state.results, state.counter]
       }
     default:
       return state;
