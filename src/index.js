@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 // Allows us to connect redux to our react application
 import { Provider } from 'react-redux';
 
@@ -29,7 +29,15 @@ const logger = store => {
   }
 }
 
-const store = createStore(rootReducer, applyMiddleware(logger))
+/*
+ * If redux devtools cannot be found, we fall back to a default compose function
+ * provided by redux: 'compose' allows us to combine enhancers
+ */
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(rootReducer, composeEnhancers(
+  applyMiddleware(logger))
+)
 
 /**
  * Provider is a helper component which allows us to inject the store into the react components
