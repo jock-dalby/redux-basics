@@ -12,9 +12,14 @@ export const storeResult = (payload) => {
   /* To run async code, return a function which redux-thunk gives access to dispatch action and redux-thunk
   * will execute the async code and then dispatch new action.
   */
-  return dispatch => {
+
+  // getState is optional arguement we can pass in to rach out to the store prior to dispatching the success action
+  return (dispatch, getState) => {
     // To simulate asychronous code
     setTimeout(() => {
+      // ctr to access counter reducer as per rootReducer in index.js
+      const oldCounter = getState().ctr.counter;
+      console.log(oldCounter);
       // When async code has complete, reduc-thunk calls a new action creator
       dispatch(saveResult(payload));
     }, 2000)
